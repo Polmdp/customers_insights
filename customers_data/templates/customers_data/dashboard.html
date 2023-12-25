@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Incluir Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <!-- Contenedor para el gráfico demográfico -->
+    <div id="demo-chart">{{ plot_demo|safe }}</div>
+
+    <!-- Contenedor para el gráfico de tendencias de compra -->
+    <div id="trend-chart">{{ plot_trend_line|safe }}</div>
+
+    <div id="trend-chart">{{ plot_trend_heatmap|safe }}</div>
+
+    <div id="trend-chart">{{ plot_parallel_categories|safe }}</div>
+
+    <!-- Resto de tu contenido HTML -->
+</body>
+</html>
