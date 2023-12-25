@@ -3,18 +3,60 @@
 <head>
     <!-- Incluir Plotly.js -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Incluir Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Contenedor para el gráfico demográfico -->
-    <div id="demo-chart">{{ plot_demo|safe }}</div>
+    <div class="container">
+        <!-- Contenedor para el gráfico demográfico -->
+        <div class="row mt-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        {{ plot_demo|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Contenedor para el gráfico de tendencias de compra -->
-    <div id="trend-chart">{{ plot_trend_line|safe }}</div>
+        <!-- Contenedor para el gráfico de tendencias de compra -->
+        <div class="row mt-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        {{ plot_trend_line|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div id="trend-chart">{{ plot_trend_heatmap|safe }}</div>
+        <!-- Contenedor para el gráfico de mapa de calor -->
+        <div class="row mt-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        {{ plot_trend_heatmap|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div id="trend-chart">{{ plot_parallel_categories|safe }}</div>
+        <!-- Contenedor para el gráfico de categorías paralelas -->
+        <div class="row mt-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        {{ plot_parallel_categories|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- Resto de tu contenido HTML -->
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

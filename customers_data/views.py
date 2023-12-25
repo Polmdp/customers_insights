@@ -1,7 +1,13 @@
 
 import pandas as pd
 import plotly.express as px
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView
+
 from customers_data.models import Customer, Purchase
 
 from rest_framework.views import APIView
@@ -72,14 +78,31 @@ def parallel_categories_plot_aggregated():
                                  title="Análisis de Categorías Paralelas para las 5 Mejores Localidades")
     return fig.to_html(full_html=False)
 
-def customer_demo(request):
-    # Main view that renders all plots in the dashboard
-    plot_demo = demographic_analysis_plot()
-    plot_trend_line, plot_trend_heat = purchase_trend_plot()
-    plot_parallel_categories = parallel_categories_plot_aggregated()
 
-    context = {'plot_demo': plot_demo,
-               'plot_trend_line': plot_trend_line,
-               'plot_trend_heatmap': plot_trend_heat,
-               'plot_parallel_categories': plot_parallel_categories}
-    return render(request, 'customers_data/dashboard.html', context)
+class CustomLoginView(LoginView):
+    template_name = "customers_data/login.html"
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy('customers_data:dashboard')
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Usuario o contraseña incorrectos")
+        return self.render_to_response(self.get_context_data(form=form))
+
+
+class CustomerDemoView(TemplateView):
+    template_name = 'customers_data/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        plot_demo = demographic_analysis_plot()
+        plot_trend_line, plot_trend_heat = purchase_trend_plot()
+        plot_parallel_categories = parallel_categories_plot_aggregated()
+
+        context['plot_demo'] = plot_demo
+        context['plot_trend_line'] = plot_trend_line
+        context['plot_trend_heatmap'] = plot_trend_heat
+        context['plot_parallel_categories'] = plot_parallel_categories
+
+        return context
