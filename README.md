@@ -1,84 +1,39 @@
 Customers_Insights Project
 
-The Customers_Insights project is a comprehensive Django web application designed for analyzing and visualizing customer data and sales trends. This project leverages the power of Django, Plotly for interactive visualizations, and Celery for handling asynchronous tasks and scheduled jobs.
+The Customers_Insights project is a comprehensive Django web application designed for analyzing and visualizing customer data and sales trends. This project not only leverages the power of Django and Plotly for interactive visualizations but also incorporates Django REST Framework to provide a robust API interface. It is equipped with Celery for handling asynchronous tasks and scheduled jobs, enhancing the application's efficiency and user experience.
+
 Features
+
+
 Customers Data Analysis App (customers_data)
 
-    Demographic Analysis: Visualizes customer demographics by age and gender.
-    Purchase Trend Analysis: Examines purchase trends across different seasons, categories, and locations.
-    Aggregated Sales Analysis: Identifies and analyzes the top-selling locations.
+    Demographic Analysis: Visualizes customer demographics by age and gender using interactive Plotly charts.
+    Purchase Trend Analysis: Examines purchase trends across different seasons, categories, and locations, offering insights through dynamic visualizations.
+    Aggregated Sales Analysis: Identifies and analyzes the top-selling locations to provide strategic business insights.
 
-Visualizations
+RESTful API Interface
 
-    Line Charts and Heatmaps: For purchase trends analysis.
-    Bar Charts: For demographic analysis.
-    Parallel Categories Diagrams: For aggregated sales data visualization.
+    API Integration: Utilizes Django REST Framework 
 
-Celery Integration
 
-    Asynchronous Tasks Execution: Handles operations that are not required to be performed in real-time.
-    Scheduled Tasks: Manages periodic tasks like weekly email notifications.
+Asynchronous Task Processing with Celery
+
+    Asynchronous Execution: Implements Celery to manage tasks that do not require real-time processing, improving the application's performance.
+    Scheduled Jobs: Uses Celery Beat for regular, scheduled tasks like automated data updates or periodic notifications.
 
 Setup and Configuration
 Prerequisites
 
-    Ensure RabbitMQ is installed and running.
-    Verify Django and Plotly configurations.
+    Ensure RabbitMQ and Celery are installed and correctly configured as part of the project setup.
+    Verify the setup for Django REST Framework and ensure it aligns with the application's requirements.
 
 Running the Application
 
-    Start Django Server:    
-
-    python manage.py runserver
-
-    Access Visualizations:
-    Navigate to the customer_demo view in a web browser to see the visualizations.
+    Start Django Server: Run the Django server to access the web application and API.
+    Access Visualizations: Navigate to the customer_demo view in a web browser to view the interactive data visualizations.
+    Utilize API: Interact with the RESTful API endpoints for custom data requests and actions.
 
 Using Celery
-Launching Celery Worker and Beat
 
-    Start Celery Worker:
-    
-
-celery -A celery_tasks worker -l info
-
-Listens for and executes asynchronous tasks.
-
-Start Celery Beat Scheduler:
-
-
-
-    celery -A celery_tasks beat -l info
-
-    Schedules and executes periodic tasks.
-
-Task Definition
-
-Tasks are defined in celery_tasks/tasks.py. Each task is a Python function decorated with @shared_task.
-Adding Scheduled Tasks
-
-Scheduled tasks are configured in the celery.py file in the celery_tasks app.
-Example Task
-
-
-# celery_tasks/tasks.py
-
-from celery import shared_task
-
-@shared_task
-def example_task():
-    # Task logic
-    pass
-
-Scheduled in celery.py:
-
-
-
-# celery_tasks/celery.py
-
-app.conf.beat_schedule = {
-    'example-scheduled-task': {
-        'task': 'celery_tasks.tasks.example_task',
-        'schedule': crontab(hour=8, minute=0, day_of_week=1),
-    },
-}
+    Start Celery Worker: Launch the Celery worker to process asynchronous tasks.
+    Start Celery Beat Scheduler: Initiate the Celery Beat scheduler for executing periodic tasks.

@@ -1,7 +1,35 @@
+
 import pandas as pd
 import plotly.express as px
 from django.shortcuts import render
 from customers_data.models import Customer, Purchase
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .models import Purchase
+from django.db.models import Sum
+
+
+
+
+class SalesBySeason(APIView):
+    """
+    API endpoint that shows sales totals by season.
+    """
+    def get(self, request, format=None):
+        data = Purchase.objects.values('season').annotate(total_sales=Sum('purchase_amount')).order_by('season')
+        return Response(data)
+
+class SalesByCategory(APIView):
+    """
+    API endpoint that shows sales totals by category.
+    """
+    def get(self, request, format=None):
+        data = Purchase.objects.values('category').annotate(total_sales=Sum('purchase_amount')).order_by('category')
+        return Response(data)
+
+
+
 
 def purchase_trend_plot():
     # Obtains and processes purchase data for trend analysis
